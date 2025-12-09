@@ -1,12 +1,12 @@
 from rest_framework.response import Response
 from django.shortcuts import render
-from .models import WatchList
+from .models import WatchList,StreamPlatform
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
-from .serializers import WatchListSerializer
+from .serializers import WatchListSerializer,StreamPlatformSerializer
 
 
-
+# For WatchList Table
 class All_WatchList(APIView):
     def get(self, request, format=None):
         movies=WatchList.objects.all()
@@ -20,8 +20,6 @@ class All_WatchList(APIView):
             return Response(serializer.data)
         else:
             return Response(serializer.errors)
-
-
 
 class WatchListItem(APIView):
     def get(self,request,pk):
@@ -43,4 +41,19 @@ class WatchListItem(APIView):
         movie.delete()
         return Response({'msg':"Data Deleted Suceefully"})
 
+# For StreamPlatform Table
 
+class All_Strame(APIView):
+
+    def get(self,request):
+       allstream= StreamPlatform.objects.all()
+       serializer=StreamPlatformSerializer(allstream,many=True)
+       return Response(serializer.data)
+    
+    def post(self,request):
+        serializer=StreamPlatformSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        raise Response(serializer.errors)
+       
