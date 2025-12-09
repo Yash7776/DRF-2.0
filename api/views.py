@@ -55,5 +55,25 @@ class All_Strame(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        raise Response(serializer.errors)
-       
+        return Response(serializer.errors)
+
+
+class StreamItem(APIView):
+
+    def get(self,request,pk):
+        getStream=StreamPlatform.objects.get(pk=pk)
+        serializer=StreamPlatformSerializer(getStream)
+        return Response(serializer.data)
+    
+    def put(self,request,pk):
+        getStream=StreamPlatform.objects.get(pk=pk)
+        serializer=StreamPlatformSerializer(getStream,data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+    
+    def delete(self,request,pk):
+        getStream=StreamPlatform.objects.get(pk=pk)
+        getStream.delete()
+        return Response({'Msg':"Massage Deleted Sucessfully"})

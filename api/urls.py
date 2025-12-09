@@ -8,6 +8,6 @@ urlpatterns = [
     path('watchlist-item/<int:pk>', views.WatchListItem.as_view(),name='watchlist-item'),
     # For StreamPlatfrom Table
     path('all-stream', views.All_Strame.as_view(),name='all-stream'),
-    # path('stream-item', views.All_Strame.as_view(),name='stream-item'),
+    path('stream-item/<int:pk>', views.StreamItem.as_view(),name='stream-item'),
     
 ]
