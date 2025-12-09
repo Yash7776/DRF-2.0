@@ -14,6 +14,7 @@ class WatchList(models.Model):
     title=models.CharField(max_length=30)
     storyline=models.CharField(max_length=300)
     active=models.BooleanField()
+    streamplatform=models.ForeignKey(StreamPlatform,on_delete=models.CASCADE,related_name="streamplatform")
     created=models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
