@@ -1,10 +1,10 @@
 from rest_framework.response import Response
 from django.shortcuts import render
-from .models import WatchList,StreamPlatform
+from .models import WatchList,StreamPlatform,Reviews
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
-from .serializers import WatchListSerializer,StreamPlatformSerializer
-
+from .serializers import WatchListSerializer,StreamPlatformSerializer,ReviewSerializer
+from rest_framework import generics, mixins
 
 # For WatchList Table
 class All_WatchList(APIView):
@@ -57,7 +57,6 @@ class All_Strame(APIView):
             return Response(serializer.data)
         return Response(serializer.errors)
 
-
 class StreamItem(APIView):
 
     def get(self,request,pk):
@@ -77,3 +76,29 @@ class StreamItem(APIView):
         getStream=StreamPlatform.objects.get(pk=pk)
         getStream.delete()
         return Response({'Msg':"Massage Deleted Sucessfully"})
+    
+# For Reviews Table
+
+class All_Review(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAPIView):
+    queryset = Reviews.objects.all()
+    serializer_class = ReviewSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request)
+
+class ReviewItem(mixins.RetrieveModelMixin,mixins.DestroyModelMixin,generics.UpdateAPIView,generics.GenericAPIView):
+    
+    queryset = Reviews.objects.all()
+    serializer_class = ReviewSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request)
+    
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request)
+    
+    def put(self, request, *args, **kwargs):
+        return self.update(request)

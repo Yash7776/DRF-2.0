@@ -9,5 +9,7 @@ urlpatterns = [
     # For StreamPlatfrom Table
     path('all-stream', views.All_Strame.as_view(),name='all-stream'),
     path('stream-item/<int:pk>', views.StreamItem.as_view(),name='stream-item'),
+    path('all-review', views.All_Review.as_view(),name='all-review'),
+    path('review-item/<int:pk>', views.ReviewItem.as_view(),name='review-item'),
     
 ]
